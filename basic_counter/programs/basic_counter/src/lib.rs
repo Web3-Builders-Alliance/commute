@@ -1,14 +1,20 @@
 use anchor_lang::prelude::*;
+mod marketplace;
+use crate::marketplace::AccessPda;
 
 declare_id!("GGfsrCPHdtCM1JT9YDrn463SiR6orGvyGtk6P63goCpr");
 
 #[program]
 pub mod counter_anchor {
     use super::*;
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        let counter_account = &mut ctx.accounts.counter_account;
-        counter_account.count = 0;
+    pub fn initialize(ctx: Context<Initialize>, program_id: Pubkey) -> Result<()> {
+        let access_pda =&mut ctx.accounts.access_pda;
+        if access_pda.buyer == ctx.accounts.user.key() && access_pda.program_id == program_id {
+            let counter_account = &mut ctx.accounts.counter_account;
+            counter_account.count = 0;
+        }
         Ok(())
+
     }
 
     pub fn increase(ctx: Context<Increase>, increment: u64) -> Result<()> {
@@ -40,6 +46,7 @@ pub struct Initialize<'info> {
     pub counter_account: Account<'info, Counter>,
     #[account(mut)]
     pub user: Signer<'info>,
+    pub access_pda: Account<'info, AccessPda>,
     pub system_program: Program<'info, System>,
 }
 

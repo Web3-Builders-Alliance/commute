@@ -19,21 +19,23 @@ import assert from "assert";
 const { SystemProgram } = anchor.web3;
 
 describe('Counter Anchor Initialization', () => {
-  const owner = new Keypair();
+  const seller = new Keypair();
   anchor.setProvider(anchor.AnchorProvider.env());
   const programId = new PublicKey("GGfsrCPHdtCM1JT9YDrn463SiR6orGvyGtk6P63goCpr");
   const program = new anchor.Program<CounterAnchor>(IDL, programId,anchor.getProvider());
   const counterAccount = anchor.web3.Keypair.generate();
   const solAmount = 10 * LAMPORTS_PER_SOL;
+  const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller")],program.programId)[0];
   
-  it("Prefunds payer wallet with sol and spl token", async () => {
+  it("Prefunds seller wallet with sol", async () => {
     await anchor.AnchorProvider.env().connection
-      .requestAirdrop(owner.publicKey, solAmount)
+      .requestAirdrop(seller.publicKey, solAmount)
       .then(confirmTx);
   });
 
-  it('should initialized!', async () => {
-    await program.methods.initialize()
+
+  it('check for access pda and intialize!', async () => {
+    await program.methods.initialize(programId)
     .accounts({
       counterAccount: counterAccount.publicKey,
         user: anchor.AnchorProvider.env().wallet.publicKey,
@@ -42,16 +44,16 @@ describe('Counter Anchor Initialization', () => {
     .signers([counterAccount])
     .rpc()
     .then(confirmTx);    
-});
+  });
 
-it('increase!', async () => {
-  await program.methods.increase(new anchor.BN(1))
-  .accounts({
-    counterAccount: counterAccount.publicKey,
-  })
-  .rpc()
-  .then(confirmTx);    
-});
+  it('increase!', async () => {
+    await program.methods.increase(new anchor.BN(1))
+    .accounts({
+      counterAccount: counterAccount.publicKey,
+    })
+    .rpc()
+    .then(confirmTx);    
+  });
 
 
 });

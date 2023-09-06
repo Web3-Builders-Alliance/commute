@@ -1,24 +1,5 @@
 use anchor_lang::prelude::*;
 
-declare_id!("2zZpWQ35TqpTwKe9fYqp5hLMkEKXeX28Peb4vsbnUZNS");
-
-#[program]
-pub mod program_marketplace {
-    use super::*;
-
-    pub fn initialize_seller_program(ctx: Context<InitializeSellerProgram>, program_id : Pubkey) -> Result<()> {
-        ctx.accounts.seller_program.program_id = program_id;
-        ctx.accounts.seller_program.seller = ctx.accounts.seller.key();
-        Ok(())
-    }
-
-    pub fn initialize_access_pda(ctx: Context<InitializeAccessPda>, program_id : Pubkey) -> Result<()> {
-        ctx.accounts.access_pda.buyer = ctx.accounts.buyer.key();
-        ctx.accounts.access_pda.program_id = program_id;
-        unimplemented!()
-    }
-}
-
 #[derive(Accounts)]
 pub struct InitializeSellerProgram<'info> {
     #[account(mut)]
@@ -55,14 +36,29 @@ pub struct InitializeAccessPda<'info> {
     system_program : Program<'info, System>
 }
 
+impl <'info> InitializeAccessPda <'info> {
+    pub fn initialize_access_pda(&mut self) -> Result<()> {
+        self.access_pda.buyer = self.buyer.key();
+        self.access_pda.program_id = self.seller_program.program_id;
+        Ok(())
+    }
+}
+impl <'info> InitializeSellerProgram <'info> {
+    pub fn initialize_seller_program(&mut self, program_id : Pubkey) -> Result<()> {
+        self.seller_program.program_id = program_id;
+        self.seller_program.seller = self.seller.key();
+        Ok(())
+    }
+}
+
 #[account]
 pub struct AccessPda {
-    program_id : Pubkey,
-    buyer:Pubkey
+    pub program_id : Pubkey,
+    pub buyer:Pubkey
 }
 
 #[account]
 pub struct SellerProgram {
-    program_id:Pubkey,
-    seller:Pubkey,
+    pub program_id:Pubkey,
+    pub seller:Pubkey,
 }
