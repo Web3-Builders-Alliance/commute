@@ -14,7 +14,6 @@ pub mod counter_anchor {
             counter_account.count = 0;
         }
         Ok(())
-
     }
 
     pub fn increase(ctx: Context<Increase>, increment: u64) -> Result<()> {

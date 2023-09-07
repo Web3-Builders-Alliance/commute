@@ -26,6 +26,7 @@ describe('Counter Anchor Initialization', () => {
   const counterAccount = anchor.web3.Keypair.generate();
   const solAmount = 10 * LAMPORTS_PER_SOL;
   const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller")],program.programId)[0];
+  const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access")],program.programId)[0];
   
   it("Prefunds seller wallet with sol", async () => {
     await anchor.AnchorProvider.env().connection
@@ -40,6 +41,7 @@ describe('Counter Anchor Initialization', () => {
       counterAccount: counterAccount.publicKey,
         user: anchor.AnchorProvider.env().wallet.publicKey,
         systemProgram: SystemProgram.programId,
+        accessPda: accessPda,
     })
     .signers([counterAccount])
     .rpc()
@@ -54,6 +56,5 @@ describe('Counter Anchor Initialization', () => {
     .rpc()
     .then(confirmTx);    
   });
-
 
 });
