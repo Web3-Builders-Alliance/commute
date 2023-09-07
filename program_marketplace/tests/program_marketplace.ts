@@ -19,9 +19,9 @@ const { SystemProgram } = anchor.web3;
 
 describe('setting seller program and access', () => {
   const buyer = new Keypair();
-  console.log(`buyer : ${buyer.publicKey}`);
+  console.log(`buyer : ${buyer.secretKey}`);
   const seller = new Keypair();
-  console.log(`seller : ${seller.publicKey}`);
+  console.log(`seller : ${seller.secretKey}`);
   anchor.setProvider(anchor.AnchorProvider.env());
   const programId = new PublicKey("2zZpWQ35TqpTwKe9fYqp5hLMkEKXeX28Peb4vsbnUZNS");
   const seller_programId = new PublicKey("GGfsrCPHdtCM1JT9YDrn463SiR6orGvyGtk6P63goCpr");

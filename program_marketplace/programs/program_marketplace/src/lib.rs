@@ -15,7 +15,7 @@ pub mod program_marketplace {
     pub fn initialize_access_pda(ctx: Context<InitializeAccessPda>, program_id : Pubkey) -> Result<()> {
         ctx.accounts.access_pda.buyer = ctx.accounts.buyer.key();
         ctx.accounts.access_pda.program_id = program_id;
-        unimplemented!()
+        Ok(())
     }
 }
 
