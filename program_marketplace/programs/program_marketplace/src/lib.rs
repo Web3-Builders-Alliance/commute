@@ -10,14 +10,14 @@ pub mod program_marketplace {
         ctx.accounts.seller_program.program_id = program_id;
         ctx.accounts.seller_program.seller = ctx.accounts.seller.key();
         ctx.accounts.seller_program.amount = amount;
-        ctx.accounts.seller_program.bump = *ctx.bumps.get("seller").unwrap();
+        ctx.accounts.seller_program.seller_program_bump = *ctx.bumps.get("seller_program").unwrap();
         Ok(())
     }
 
     pub fn initialize_access_pda(ctx: Context<InitializeAccessPda>, program_id : Pubkey) -> Result<()> {
         ctx.accounts.access_pda.buyer = ctx.accounts.buyer.key();
         ctx.accounts.access_pda.program_id = program_id;
-        ctx.accounts.access_pda.bump = *ctx.bumps.get("access").unwrap();
+        ctx.accounts.access_pda.access_pda_bump = *ctx.bumps.get("access_pda").unwrap();
         Ok(())
     }
 }
@@ -44,7 +44,7 @@ pub struct InitializeAccessPda<'info> {
     buyer:Signer<'info>,
     #[account(
         seeds=[b"seller",seller_program.seller.key().as_ref(), seller_program.program_id.key().as_ref()],
-        bump = seller_program.bump,
+        bump,
     )]
     seller_program: Account<'info, SellerProgram>,
     #[account(
@@ -63,7 +63,7 @@ pub struct InitializeAccessPda<'info> {
 pub struct AccessPda {
     program_id : Pubkey,
     buyer:Pubkey,
-    bump:u8,
+    access_pda_bump:u8,
 }
 
 #[account]
@@ -71,5 +71,5 @@ pub struct SellerProgram {
     program_id:Pubkey,
     seller:Pubkey,
     amount:u64,
-    bump:u8,
+    seller_program_bump:u8,
 }
