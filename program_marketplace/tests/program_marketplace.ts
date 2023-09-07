@@ -27,8 +27,8 @@ describe('setting seller program and access', () => {
   const seller_programId = new PublicKey("GGfsrCPHdtCM1JT9YDrn463SiR6orGvyGtk6P63goCpr");
   const program = new anchor.Program<ProgramMarketplace>(IDL, programId,anchor.getProvider());
   const solAmount = 10 * LAMPORTS_PER_SOL;
-  const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller")],program.programId)[0];
-  const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access")],program.programId)[0];
+  const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),seller.publicKey.toBuffer(), seller_programId.toBuffer()],program.programId)[0];
+  const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access"), buyer.publicKey.toBuffer(), seller_programId.toBuffer()],program.programId)[0];
 
   
   it("Prefunds seller wallet with sol", async () => {
@@ -37,10 +37,11 @@ describe('setting seller program and access', () => {
       .then(confirmTx);
   });
   it('initialise seller program!', async () => {
-    await program.methods.initializeSellerProgram(seller_programId)
+    await program.methods.initializeSellerProgram(seller_programId, new anchor.BN(solAmount))
     .accounts({
       seller:seller.publicKey,
       sellerProgram:sellerProgram,
+      systemProgram : SystemProgram.programId,
     })
     .signers([seller])
     .rpc()
@@ -64,6 +65,4 @@ describe('setting seller program and access', () => {
     .rpc()
     .then(confirmTx);    
   });
-
-  
 });
