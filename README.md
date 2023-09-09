@@ -30,12 +30,10 @@ and adding it in front of each function
 1. being able to make money out of your programs
 2. recognition and stage in an on chain by platoform (like app store)
 
-## access account struct
-spl token:
-$ Id : programID
-$ buyer : pubkey
-$ Acess : enum
-
+fund flow:              funds released 
+                        periodic
+buyer -----> buffer acc -----------> seller
+                        sits there 
 ## tech stack
 - db = sql / mongodb(prefered)
 - frontend = nextjs
