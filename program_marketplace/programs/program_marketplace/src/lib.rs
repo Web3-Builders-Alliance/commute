@@ -61,15 +61,15 @@ pub struct InitializeAccessPda<'info> {
 
 #[account]
 pub struct AccessPda {
-    program_id : Pubkey,
-    buyer:Pubkey,
-    access_pda_bump:u8,
+    pub program_id : Pubkey,
+    pub buyer:Pubkey,
+    pub access_pda_bump:u8,
 }
 
 #[account]
 pub struct SellerProgram {
-    program_id:Pubkey,
-    seller:Pubkey,
-    amount:u64,
-    seller_program_bump:u8,
+    pub program_id:Pubkey,
+    pub seller:Pubkey,
+    pub amount:u64,
+    pub seller_program_bump:u8,
 }

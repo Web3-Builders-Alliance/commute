@@ -2,6 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.localnet]
+counter = "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9"
 program_marketplace = "2zZpWQ35TqpTwKe9fYqp5hLMkEKXeX28Peb4vsbnUZNS"
 
 [registry]

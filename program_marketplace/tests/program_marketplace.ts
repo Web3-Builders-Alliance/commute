@@ -2,6 +2,7 @@ import { Connection, Keypair, PublicKey, Commitment, LAMPORTS_PER_SOL } from "@s
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { ProgramMarketplace, IDL } from "../target/types/program_marketplace";
+import {CounterAnchor, IDL as COUNTER_IDL} from "../target/types/counter_anchor";
 const confirmTx = async (signature: string) => {
   const latestBlockhash = await anchor
     .getProvider()
@@ -22,10 +23,12 @@ describe('setting seller program and access', () => {
   console.log(`buyer : ${buyer.publicKey}`);
   const seller = new Keypair();
   console.log(`seller : ${seller.publicKey}`);
+  const counterAccount = anchor.web3.Keypair.generate();
   anchor.setProvider(anchor.AnchorProvider.env());
   const programId = new PublicKey("2zZpWQ35TqpTwKe9fYqp5hLMkEKXeX28Peb4vsbnUZNS");
-  const seller_programId = new PublicKey("GGfsrCPHdtCM1JT9YDrn463SiR6orGvyGtk6P63goCpr");
+  const seller_programId = new PublicKey("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9");
   const program = new anchor.Program<ProgramMarketplace>(IDL, programId,anchor.getProvider());
+  const counter_program = new anchor.Program<CounterAnchor>(COUNTER_IDL, seller_programId,anchor.getProvider());
   const solAmount = 10 * LAMPORTS_PER_SOL;
   const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),seller.publicKey.toBuffer(), seller_programId.toBuffer()],program.programId)[0];
   const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access"), buyer.publicKey.toBuffer(), seller_programId.toBuffer()],program.programId)[0];
@@ -62,6 +65,28 @@ describe('setting seller program and access', () => {
       accessPda:accessPda,
     })
     .signers([buyer])
+    .rpc()
+    .then(confirmTx);    
+  });
+
+  it('check for access pda and intialize!', async () => {
+    await counter_program.methods.initialize(programId)
+    .accounts({
+      counterAccount: counterAccount.publicKey,
+        user: anchor.AnchorProvider.env().wallet.publicKey,
+        systemProgram: SystemProgram.programId,
+        accessPda: accessPda,
+    })
+    .signers([counterAccount])
+    .rpc()
+    .then(confirmTx);    
+  });
+
+  it('increase!', async () => {
+    await counter_program.methods.increase(new anchor.BN(1))
+    .accounts({
+      counterAccount: counterAccount.publicKey,
+    })
     .rpc()
     .then(confirmTx);    
   });
