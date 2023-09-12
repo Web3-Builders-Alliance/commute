@@ -3,6 +3,7 @@ seeds = false
 skip-lint = false
 [programs.localnet]
 counter = "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9"
+escrow = "6QC5nNLrdHDkQkoyrDLBs4hTeav1atKmWCKf447F8XSG"
 program_marketplace = "2zZpWQ35TqpTwKe9fYqp5hLMkEKXeX28Peb4vsbnUZNS"
 
 [registry]
