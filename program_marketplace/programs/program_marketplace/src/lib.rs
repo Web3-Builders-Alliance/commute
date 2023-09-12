@@ -14,10 +14,18 @@ pub mod program_marketplace {
         Ok(())
     }
 
-    pub fn initialize_access_pda(ctx: Context<InitializeAccessPda>, program_id : Pubkey) -> Result<()> {
+    pub fn initialize_access_pda(ctx: Context<InitializeAccessPda>, program_id : Pubkey, trial : bool) -> Result<()> {
         ctx.accounts.access_pda.buyer = ctx.accounts.buyer.key();
         ctx.accounts.access_pda.program_id = program_id;
         ctx.accounts.access_pda.access_pda_bump = *ctx.bumps.get("access_pda").unwrap();
+        if trial == true {
+            ctx.accounts.access_pda.expires_at = Clock::get()?.unix_timestamp + 604800_i64;
+        }
+        else { ctx.accounts.access_pda.expires_at = 0; }
+        Ok(())
+    }
+
+    pub fn close_expired_access(ctx: Context<CloseExpiredAccess>) -> Result<()> {
         Ok(())
     }
 }
@@ -44,13 +52,13 @@ pub struct InitializeAccessPda<'info> {
     buyer:Signer<'info>,
     #[account(
         seeds=[b"seller",seller_program.seller.key().as_ref(), seller_program.program_id.key().as_ref()],
-        bump,
+        bump = seller_program.seller_program_bump,
     )]
     seller_program: Account<'info, SellerProgram>,
     #[account(
         init,
         payer = buyer,
-        space = 8 + 32*2 + 1,
+        space = 8 + 32*2 + 1 + 8,
         seeds = [b"access", buyer.key().as_ref(), seller_program.program_id.key().as_ref()],
         bump
 
@@ -59,11 +67,26 @@ pub struct InitializeAccessPda<'info> {
     system_program : Program<'info, System>
 }
 
+
+#[derive(Accounts)]
+pub struct CloseExpiredAccess<'info> {
+    #[account(mut)]
+    closer: Signer<'info>,
+    #[account(
+        mut,
+       constraint = access_pda.expires_at != 0 && access_pda.expires_at < Clock::get()?.unix_timestamp,
+       close = closer,
+    )]
+    access_pda: Account<'info, AccessPda>,
+    system_program: Program<'info, System>,
+}
+
 #[account]
 pub struct AccessPda {
     pub program_id : Pubkey,
     pub buyer:Pubkey,
     pub access_pda_bump:u8,
+    pub expires_at : i64,
 }
 
 #[account]

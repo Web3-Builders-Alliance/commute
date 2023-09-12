@@ -58,7 +58,7 @@ describe('setting seller program and access', () => {
   });
 
   it('initialise access pda!', async () => {
-    await program.methods.initializeAccessPda(seller_programId)
+    await program.methods.initializeAccessPda(seller_programId, false)
     .accounts({
       buyer: buyer.publicKey,
       sellerProgram:sellerProgram,
@@ -86,6 +86,7 @@ describe('setting seller program and access', () => {
     await counter_program.methods.increase(new anchor.BN(1))
     .accounts({
       counterAccount: counterAccount.publicKey,
+      accessPda: accessPda,
     })
     .rpc()
     .then(confirmTx);    
