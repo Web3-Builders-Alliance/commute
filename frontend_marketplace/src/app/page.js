@@ -1,9 +1,17 @@
-import Image from 'next/image'
 
-export default function Home() {
+const Home = () => {
   return (
-    <div>
-      <h1 className = "text-2xl">marketplace program</h1>
-    </div>
+    <section className="w-full flex-center flex-col">
+      <h1 className="head_text text-center">
+        Discover Solana Program on{` `}
+        <br className="max-md:hidden" />
+        <span className="orange_gradient text-center">Commute Marketplace</span>
+      </h1>
+      <p className="desc text-center">
+        this marketplace makes use of solana blockchain and lets users buy and sell program rights to put it simply ONDC for solana programs
+      </p>
+    </section>
   )
 }
+
+export default Home;
