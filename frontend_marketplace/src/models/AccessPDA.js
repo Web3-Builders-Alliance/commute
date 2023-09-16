@@ -4,6 +4,7 @@ import mongoose, {Schema} from "mongoose";
 const AccessPDASchema = new Schema({
         buyer_name : String,
         seller_name : String,
+        program_name : String,
         amount: Number,
         program_id: String,
         buyer_pubkey : String,      

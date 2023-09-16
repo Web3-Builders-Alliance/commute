@@ -6,6 +6,7 @@ export async function POST(request) {
     const {
         buyer_name,
         seller_name,
+        program_name,
         amount,
         program_id,
         buyer_pubkey,      
@@ -17,6 +18,7 @@ export async function POST(request) {
     await AccessPDA.create({
         buyer_name,
         seller_name,
+        program_name,
         amount,
         program_id,
         buyer_pubkey,      

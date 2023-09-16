@@ -2,6 +2,8 @@ import mongoose, {Schema} from "mongoose";
 
 const sellerProgramSchema = new Schema({
         seller_name : String,
+        program_name : String,
+        program_description : String,
         program_id: String,
         seller_pubkey: String,
         amount: Number,
