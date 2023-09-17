@@ -1,10 +1,15 @@
 import connectMongoDB from "@libs/mongodb";
+import { Connection, Keypair, PublicKey, Commitment, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import SellerProgram from "@models/SellerProgram";
 import { NextResponse } from "next/server";
+import createSellerProgram from "./createSellerProgram";
 
 export async function POST(request) {
+    
     const {
         seller_name,
+        program_name,
+        program_description,
         program_id,
         seller_pubkey,
         amount,
@@ -12,8 +17,15 @@ export async function POST(request) {
     } = await request.json();
     await connectMongoDB();
 
+    const seller_programId = new PublicKey(program_id);
+    const solAmount = amount * LAMPORTS_PER_SOL;
+
+    await createSellerProgram(seller_programId,solAmount);
+
     await SellerProgram.create({
         seller_name,
+        program_name,
+        program_description,
         program_id,
         seller_pubkey,
         amount,

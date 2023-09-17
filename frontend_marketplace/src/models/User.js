@@ -3,8 +3,14 @@ import SellerProgram from "./SellerProgram";
 import AccessPDA from "./AccessPDA";
 const UserSchema = new Schema({
     name : String,
-    seller_programs : [ {type: SellerProgram}],
-    access_pda : [{type: AccessPDA}],
+    seller_programs : [ {
+        program_name :String,
+        amount: Number,
+    }],
+    access_pda : [{
+        program_name :String,
+        amount: Number,
+    }],
 },
 {
     timestamps:true,

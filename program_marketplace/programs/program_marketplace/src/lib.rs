@@ -74,7 +74,7 @@ pub struct CloseExpiredAccess<'info> {
     closer: Signer<'info>,
     #[account(
         mut,
-       constraint = access_pda.expires_at != 0 && access_pda.expires_at < Clock::get()?.unix_timestamp,
+       constraint = (access_pda.expires_at != 0 && access_pda.expires_at < Clock::get()?.unix_timestamp) || access_pda.buyer==closer.key(),
        close = closer,
     )]
     access_pda: Account<'info, AccessPda>,
