@@ -2,7 +2,6 @@ import connectMongoDB from "@/libs/mongodb";
 import { Connection, Keypair, PublicKey, Commitment, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import SellerProgram from "@/modals/SellerProgram";
 import { NextResponse } from "next/server";
-// import createSellerProgram from "./createSellerProgram";
 
 export async function POST(request : any) {
     
