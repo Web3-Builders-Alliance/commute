@@ -58,7 +58,7 @@ describe('setting seller program and access', () => {
   });
 
   it('initialise access pda!', async () => {
-    await program.methods.initializeAccessPda(seller_programId, false)
+    await program.methods.initializeAccessPda(seller_programId, true)
     .accounts({
       buyer: buyer.publicKey,
       sellerProgram:sellerProgram,
@@ -81,8 +81,36 @@ describe('setting seller program and access', () => {
     .rpc()
     .then(confirmTx);    
   });
+  it('increase1!', async () => {
+    await counter_program.methods.increase(new anchor.BN(1))
+    .accounts({
+      counterAccount: counterAccount.publicKey,
+      accessPda: accessPda,
+    })
+    .rpc()
+    .then(confirmTx);    
+  });
+  it('increase2!', async () => {
+    await counter_program.methods.increase(new anchor.BN(1))
+    .accounts({
+      counterAccount: counterAccount.publicKey,
+      accessPda: accessPda,
+    })
+    .rpc()
+    .then(confirmTx);    
+  });
+  it('close account!', async () => {
+    await program.methods.closeExpiredAccess()
+    .accounts({
+      closer: buyer.publicKey,
+      accessPda: accessPda,
+    })
+    .signers([buyer])
+    .rpc()
+    .then(confirmTx);    
+  });
 
-  it('increase!', async () => {
+  it('increase3!', async () => {
     await counter_program.methods.increase(new anchor.BN(1))
     .accounts({
       counterAccount: counterAccount.publicKey,
