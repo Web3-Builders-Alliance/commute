@@ -5,11 +5,11 @@ import { useConnection, useWallet, useAnchorWallet} from '@solana/wallet-adapter
 import { IDLMarketplaceProgram, IDL } from "@/idl_marketplace/idl_marketplace";
 import React, { FC, useCallback } from 'react';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-
+import { useRouter } from "next/navigation";
 
 const { SystemProgram } = anchor.web3;
 const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
-const sellerProgramId = new PublicKey("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9");
+const sellerProgramId = new PublicKey("3rsPxsbTmWS7fci9w4JhBkgVFb5NZ9NueE6Jj7dzD2yh");
 
 
 const preflightCommitment = "processed";
@@ -20,6 +20,7 @@ export const CreateSellerProgram: FC = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const wallet = useAnchorWallet();
+  const router = useRouter();
   
 
   const onClick = useCallback(async () => {
@@ -47,6 +48,33 @@ export const CreateSellerProgram: FC = () => {
         .rpc();
 
         console.log(txn);
+        if(txn){
+          try {
+            const res = await fetch("http://localhost:3000/api/seller-program", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                seller_name: "astro_boy",
+                program_name: "counter",
+                program_description: "this is a program about counters and and has functions to increase and decrease count",
+                programId,
+                publicKey,
+                amount : 10000,
+              }),
+            });
+      
+            if (res.ok) {
+              router.push("/");
+            } else {
+              throw new Error("Failed to create a topic");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+
+        }
   }, [connection, publicKey]);
 
   return (

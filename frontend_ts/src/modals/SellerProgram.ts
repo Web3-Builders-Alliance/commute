@@ -7,7 +7,6 @@ interface ISellerProgram {
     program_id: String,
     seller_pubkey: String,
     amount: Number,
-    seller_program_bump: Number
 }
 
 const sellerProgramSchema = new Schema<ISellerProgram>({
@@ -17,7 +16,6 @@ const sellerProgramSchema = new Schema<ISellerProgram>({
         program_id: String,
         seller_pubkey: String,
         amount: Number,
-        seller_program_bump: Number
     },
     {
         timestamps:true,
