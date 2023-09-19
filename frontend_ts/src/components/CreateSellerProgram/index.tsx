@@ -83,18 +83,3 @@ export const CreateSellerProgram: FC = () => {
       </button>
   );
 };
-
-
-// const createSellerProgram = async(seller_pubkey : string,seller_programId: string, solAmount: number) => {
-//     await program.methods.initializeSellerProgram(seller_programId, new anchor.BN(solAmount))
-//     .accounts({
-//       seller:seller_pubkey,
-//       sellerProgram:seller_programId,
-//       systemProgram : SystemProgram.programId,
-//     })
-//     .signers([seller])
-//     .rpc()
-//     .then(confirmTx);
-// }
-
-// export default createSellerProgram;

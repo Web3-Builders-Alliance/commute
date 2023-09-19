@@ -7,6 +7,7 @@ import {
 import {PublicKey} from "@solana/web3.js";
 import { SendSOL } from '@/components/SendSOL';
 import { CreateSellerProgram } from '@/components/CreateSellerProgram';
+import { CreateAccessPDA } from '@/components/CreateAccessPDA';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -21,6 +22,8 @@ export default function Home() {
       < SendSOL />
       <br></br>
       < CreateSellerProgram />
+      <br></br>
+      < CreateAccessPDA />
       
     </div>
   )
