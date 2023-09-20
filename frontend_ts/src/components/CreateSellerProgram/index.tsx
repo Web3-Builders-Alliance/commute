@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const { SystemProgram } = anchor.web3;
 const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
-const sellerProgramId = new PublicKey("3rsPxsbTmWS7fci9w4JhBkgVFb5NZ9NueE6Jj7dzD2yh");
+const sellerProgramId = new PublicKey("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9");
 
 
 const preflightCommitment = "processed";

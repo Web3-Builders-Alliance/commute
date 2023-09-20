@@ -1,5 +1,5 @@
 "use client";
-import {Transaction, Connection, Keypair, LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
+import {Transaction, Connection, Keypair, LAMPORTS_PER_SOL, PublicKey,SystemProgram, VersionedTransaction, TransactionMessage} from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { useConnection, useWallet, useAnchorWallet} from '@solana/wallet-adapter-react';
 import { IDLMarketplaceProgram, IDL } from "@/idl_marketplace/idl_marketplace";
@@ -7,11 +7,10 @@ import React, { FC, useCallback } from 'react';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import { useRouter } from "next/navigation";
 
-const { SystemProgram } = anchor.web3;
 const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
-const sellerProgramId = new PublicKey("3rsPxsbTmWS7fci9w4JhBkgVFb5NZ9NueE6Jj7dzD2yh");
-const to = new PublicKey("7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX")
-const amount  = new anchor.BN(10);
+const sellerProgramId = new PublicKey("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9");
+const to = new PublicKey("86nzka9Vi6A989Ej2L4LXf8zdqvVkistHntq28mbv4gF")
+const amount  = 10_000;
 
 const preflightCommitment = "processed";
 const commitment = "processed";
@@ -28,8 +27,12 @@ export const CreateAccessPDA: FC = () => {
     
     
       if (!publicKey) throw new WalletNotConnectedError();
-      const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),publicKey.toBuffer(), sellerProgramId.toBuffer()],programId)[0];
+      const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),to.toBuffer(), sellerProgramId.toBuffer()],programId)[0];
+      console.log(`seller program : ${sellerProgram}`);
       const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access"), publicKey.toBuffer(), sellerProgramId.toBuffer()],programId)[0];
+      console.log(`access pda : ${accessPda}`);
+
+
 
       if (!wallet) {
         return;
@@ -40,28 +43,27 @@ export const CreateAccessPDA: FC = () => {
       });
 
       const program = new anchor.Program(IDL , programId, provider);
-      let sendSolTxn = new Transaction().add(
-        SystemProgram.transfer({
-            fromPubkey:publicKey,
-            toPubkey:to,
-            lamports:amount,
-        })
-        );
-        sendSolTxn.recentBlockhash = (await connection.getLatestBlockhash('confirmed')).blockhash;
-        sendSolTxn.feePayer = publicKey;
-        const sendSolSignature = await sendTransaction(sendSolTxn,connection);
 
-      if(sendSolSignature){
+      let sendSolSignature = "";
+      const sendSolTxn = SystemProgram.transfer({
+            fromPubkey: publicKey,
+            toPubkey: to,
+            lamports : amount,
+        });
+
         const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, true)
         .accounts({
-          buyer:publicKey,
-          sellerProgram:sellerProgram,
-          accessPda: accessPda
+            buyer:publicKey,
+            sellerProgram:sellerProgram,
+            accessPda: accessPda,
+            systemProgram : SystemProgram.programId,
         })
-        .rpc();
+        .instruction();
+        console.log(accessPda);
+        const txn = new Transaction().add(sendSolTxn).add(accessPdaTxn); 
+        const sig = await sendTransaction(txn, connection);
+        await connection.confirmTransaction(sig);
 
-        console.log(accessPdaTxn);
-      }
 
         // if(accessPdaTxn){
         //   try {
