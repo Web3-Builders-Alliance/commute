@@ -44,7 +44,6 @@ export const CreateAccessPDA: FC = () => {
 
       const program = new anchor.Program(IDL , programId, provider);
 
-      let sendSolSignature = "";
       const sendSolTxn = SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: to,
@@ -65,33 +64,38 @@ export const CreateAccessPDA: FC = () => {
         await connection.confirmTransaction(sig);
 
 
-        // if(accessPdaTxn){
-        //   try {
-        //     const res = await fetch("http://localhost:3000/api/access-pda", {
-        //       method: "POST",
-        //       headers: {
-        //         "Content-type": "application/json",
-        //       },
-        //       body: JSON.stringify({
-        //         seller_name: "astro_boy",
-        //         program_name: "counter",
-        //         program_description: "this is a program about counters and and has functions to increase and decrease count",
-        //         programId,
-        //         publicKey,
-        //         amount : 10000,
-        //       }),
-        //     });
-      
-        //     if (res.ok) {
-        //       router.push("/");
-        //     } else {
-        //       throw new Error("Failed to create a topic");
-        //     }
-        //   } catch (error) {
-        //     console.log(error);
-        //   }
+        if(sig){
+          try {
+            const currentDate = new Date();
 
-        // }
+            // Calculate the date and time one week from now
+            const oneWeekFromNow = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const res = await fetch("http://localhost:3000/api/access-pda", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                buyer_name:"xyz2",
+                seller_name:"abc2",
+                program_name: "counter",
+                amount,
+                program_id : "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
+                buyer_pubkey: "7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX", 
+                expires_at:oneWeekFromNow
+              }),
+            });
+      
+            if (res.ok) {
+              router.push("/");
+            } else {
+              throw new Error("Failed to create a topic");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+
+        }
   }, [connection, publicKey]);
 
   return (

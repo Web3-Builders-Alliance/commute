@@ -9,8 +9,7 @@ export async function POST(request:any) {
         program_name,
         amount,
         program_id,
-        buyer_pubkey,      
-        access_pda_bump, 
+        buyer_pubkey,
         expires_at,
     } = await request.json();
     await connectMongoDB();
@@ -21,12 +20,11 @@ export async function POST(request:any) {
         program_name,
         amount,
         program_id,
-        buyer_pubkey,      
-        access_pda_bump, 
+        buyer_pubkey,
         expires_at,
     });
 
-    return NextResponse.json({message:"created seller program"}, {status:201});
+    return NextResponse.json({message:"created access pda"}, {status:201});
 
 }
 

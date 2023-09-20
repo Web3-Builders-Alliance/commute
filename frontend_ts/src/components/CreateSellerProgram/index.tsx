@@ -59,8 +59,8 @@ export const CreateSellerProgram: FC = () => {
                 seller_name: "astro_boy",
                 program_name: "counter",
                 program_description: "this is a program about counters and and has functions to increase and decrease count",
-                programId,
-                publicKey,
+                program_id: "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
+                seller_pubkey : "86nzka9Vi6A989Ej2L4LXf8zdqvVkistHntq28mbv4gF",
                 amount : 10000,
               }),
             });
