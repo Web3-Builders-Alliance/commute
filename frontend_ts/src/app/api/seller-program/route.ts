@@ -12,7 +12,7 @@ export async function POST(request : any) {
         program_id,
         seller_pubkey,
         amount,
-        seller_program_bump
+        
     } = await request.json();
     await connectMongoDB();
 
@@ -28,7 +28,7 @@ export async function POST(request : any) {
         program_id,
         seller_pubkey,
         amount,
-        seller_program_bump
+        
     });
 
     return NextResponse.json({message:"created seller program"}, {status:201});

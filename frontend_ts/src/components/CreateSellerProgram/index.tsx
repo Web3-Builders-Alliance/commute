@@ -5,7 +5,7 @@ import { useConnection, useWallet, useAnchorWallet} from '@solana/wallet-adapter
 import { IDLMarketplaceProgram, IDL } from "@/idl_marketplace/idl_marketplace";
 import React, { FC, useCallback } from 'react';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-
+import { useRouter } from "next/navigation";
 
 const { SystemProgram } = anchor.web3;
 const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
@@ -20,6 +20,7 @@ export const CreateSellerProgram: FC = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const wallet = useAnchorWallet();
+  const router = useRouter();
   
 
   const onClick = useCallback(async () => {
@@ -47,6 +48,33 @@ export const CreateSellerProgram: FC = () => {
         .rpc();
 
         console.log(txn);
+        if(txn){
+          try {
+            const res = await fetch("http://localhost:3000/api/seller-program", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                seller_name: "astro_boy",
+                program_name: "counter",
+                program_description: "this is a program about counters and and has functions to increase and decrease count",
+                program_id: "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
+                seller_pubkey : "86nzka9Vi6A989Ej2L4LXf8zdqvVkistHntq28mbv4gF",
+                amount : 10000,
+              }),
+            });
+      
+            if (res.ok) {
+              router.push("/");
+            } else {
+              throw new Error("Failed to create a topic");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+
+        }
   }, [connection, publicKey]);
 
   return (
@@ -55,18 +83,3 @@ export const CreateSellerProgram: FC = () => {
       </button>
   );
 };
-
-
-// const createSellerProgram = async(seller_pubkey : string,seller_programId: string, solAmount: number) => {
-//     await program.methods.initializeSellerProgram(seller_programId, new anchor.BN(solAmount))
-//     .accounts({
-//       seller:seller_pubkey,
-//       sellerProgram:seller_programId,
-//       systemProgram : SystemProgram.programId,
-//     })
-//     .signers([seller])
-//     .rpc()
-//     .then(confirmTx);
-// }
-
-// export default createSellerProgram;

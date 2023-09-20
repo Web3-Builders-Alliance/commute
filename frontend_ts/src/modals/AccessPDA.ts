@@ -7,7 +7,6 @@ interface IAccessPDA {
         amount: Number,
         program_id: String,
         buyer_pubkey : String,      
-        access_pda_bump:Number, 
         expires_at : Date,
 }
 
@@ -17,8 +16,7 @@ const AccessPDASchema = new Schema<IAccessPDA>({
         program_name : String,
         amount: Number,
         program_id: String,
-        buyer_pubkey : String,      
-        access_pda_bump:Number, 
+        buyer_pubkey : String,  
         expires_at : Date,
     },
     {
