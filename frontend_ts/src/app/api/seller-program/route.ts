@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 export async function POST(request : any) {
     
     const {
-        seller_name,
         program_name,
         program_description,
         program_id,
@@ -22,7 +21,6 @@ export async function POST(request : any) {
     // await createSellerProgram(seller_programId,solAmount);
 
     await SellerProgram.create({
-        seller_name,
         program_name,
         program_description,
         program_id,

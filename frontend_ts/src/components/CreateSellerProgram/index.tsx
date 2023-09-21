@@ -56,7 +56,6 @@ export const CreateSellerProgram: FC = () => {
                 "Content-type": "application/json",
               },
               body: JSON.stringify({
-                seller_name: "astro_boy",
                 program_name: "counter",
                 program_description: "this is a program about counters and and has functions to increase and decrease count",
                 program_id: "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
