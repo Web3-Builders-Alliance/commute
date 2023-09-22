@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose';
 
 interface ISellerProgram {
-    seller_name : String,
     program_name : String,
     program_description : String,
     program_id: String,
@@ -10,7 +9,6 @@ interface ISellerProgram {
 }
 
 const sellerProgramSchema = new Schema<ISellerProgram>({
-        seller_name : String,
         program_name : String,
         program_description : String,
         program_id: String,
