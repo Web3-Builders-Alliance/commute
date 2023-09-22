@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 interface IAccessPDA {
         program_name : String,
@@ -21,6 +21,6 @@ const AccessPDASchema = new Schema<IAccessPDA>({
 );
 
 
-const AccessPDA = model("AccessPDA", AccessPDASchema);
+const AccessPDA = models.AccessPDA || model("AccessPDA", AccessPDASchema);
 
 export default AccessPDA;

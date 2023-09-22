@@ -10,6 +10,7 @@ export async function POST(request : any) {
         program_description,
         program_id,
         seller_pubkey,
+        seller_program_pda,
         amount,
         
     } = await request.json();
@@ -25,6 +26,7 @@ export async function POST(request : any) {
         program_description,
         program_id,
         seller_pubkey,
+        seller_program_pda,
         amount,
         
     });
