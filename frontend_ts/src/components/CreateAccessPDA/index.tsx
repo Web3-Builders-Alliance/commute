@@ -76,12 +76,10 @@ export const CreateAccessPDA: FC = () => {
                 "Content-type": "application/json",
               },
               body: JSON.stringify({
-                buyer_name:"xyz2",
-                seller_name:"abc2",
                 program_name: "counter",
                 amount,
                 program_id : "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
-                buyer_pubkey: "7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX", 
+                buyer_pubkey: "7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX",
                 expires_at:oneWeekFromNow
               }),
             });
