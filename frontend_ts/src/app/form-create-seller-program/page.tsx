@@ -47,14 +47,14 @@ export default function FormCreateSellerProgram () {
       const program = new anchor.Program(IDL , marketplaceProgramId, provider);
       const amount = new anchor.BN(amountInSol*LAMPORTS_PER_SOL);
   
-      // const txn = await program.methods.initializeSellerProgram(sellerProgramId, amount)
-      // .accounts({
-      //     seller:publicKey,
-      //     sellerProgram:sellerProgram,
-      // })
-      // .rpc();
+      const txn = await program.methods.initializeSellerProgram(sellerProgramId, amount)
+      .accounts({
+          seller:publicKey,
+          sellerProgram:sellerProgram,
+      })
+      .rpc();
   
-      // console.log(txn);
+      console.log(txn);
       if(true){
           try {
           const res = await fetch("http://localhost:3000/api/seller-program", {
