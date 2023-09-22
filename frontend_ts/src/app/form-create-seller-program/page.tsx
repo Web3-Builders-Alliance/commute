@@ -66,8 +66,8 @@ export default function FormCreateSellerProgram () {
               program_name: programName,
               program_description: programDescripton,
               program_id : sellerProgramIdStr,
-              seller_pubkey : "4j3j2j634j62",
-              amountInSol,
+              seller_pubkey : publicKey.toBase58(),
+              amount : amountInSol,
               }),
           });
   
