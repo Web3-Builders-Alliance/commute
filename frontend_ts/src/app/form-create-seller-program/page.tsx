@@ -1,7 +1,6 @@
 "use client";
-import { FormEvent, useState ,useCallback } from "react";
+import { FormEvent, useState ,useCallback,FC } from "react";
 import { useRouter } from "next/navigation";
-import { createSellerProgram } from "@/hooks/createSellerProgram";
 import {
     WalletDisconnectButton,
     WalletMultiButton
@@ -12,10 +11,12 @@ import * as anchor from "@coral-xyz/anchor";
 
 import { IDLMarketplaceProgram, IDL } from "@/idl_marketplace/idl_marketplace";
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
+const marketplaceProgramId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
 
 const preflightCommitment = "processed";
 const commitment = "processed";
+
+
 
 export default function FormCreateSellerProgram () {
     const { connection } = useConnection();
@@ -24,82 +25,78 @@ export default function FormCreateSellerProgram () {
     const router = useRouter();
     const [programName, setProgramName ] = useState("");
     const [programDescripton, setProgramDescripton ] = useState("");
-    const [sellerProgramId, setSellerProgramId ] = useState("");
+    const [sellerProgramIdStr, setSellerProgramIdStr ] = useState("");
     const [amountInSolStr, setAmountInSolStr] = useState("");
     let amountInSol = 0;
-    // const onClick = useCallback(async () => {
-    //     amountInSol = parseInt(amountInSolStr);
     
-    //     if (!programName || !programDescripton || !sellerProgramId || !amountInSol) {
-    //       alert("Fill all the details in the form.");
-    //       return;
-    //     }
-
-    //     await createSellerProgram(programName, programDescripton,sellerProgramId,amountInSol);
-
-    // }, [connection, publicKey]);
-
-    const onClick = useCallback(async () => {
-    
-    
-        if (!publicKey) throw new WalletNotConnectedError();
-        const sellerProgram_Id = new PublicKey(sellerProgramId);
-        const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),publicKey.toBuffer(), sellerProgram_Id.toBuffer()],programId)[0];
-        amountInSol = parseInt(amountInSolStr);
+    const createSellerProgram = async() => {
+      if (!publicKey) throw new WalletNotConnectedError();
+      const sellerProgramId = new PublicKey(sellerProgramIdStr); 
+      const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),publicKey.toBuffer(), sellerProgramId.toBuffer()],marketplaceProgramId)[0];
   
-        if (!wallet) {
-          return;
-        }
-        const provider = new anchor.AnchorProvider(connection, wallet, {
-          preflightCommitment,
-          commitment,
-        });
+      if (!wallet) {
+      return;
+      }
+      const provider = new anchor.AnchorProvider(connection, wallet, {
+      preflightCommitment,
+      commitment,
+      });
+      amountInSol = parseFloat(amountInSolStr);
+      console.log(amountInSol);
   
-        const program = new anchor.Program(IDL , programId, provider);
-        
-        const txn = await program.methods.initializeSellerProgram(sellerProgram_Id, new anchor.BN(amountInSol*LAMPORTS_PER_SOL))
-          .accounts({
-            seller:publicKey,
-            sellerProgram:sellerProgram,
-          })
-          .rpc();
+      const program = new anchor.Program(IDL , marketplaceProgramId, provider);
+      const amount = new anchor.BN(amountInSol*LAMPORTS_PER_SOL);
   
-          console.log(txn);
-          if(txn){
-            try {
-              const res = await fetch("http://localhost:3000/api/seller-program", {
-                method: "POST",
-                headers: {
-                  "Content-type": "application/json",
-                },
-                body: JSON.stringify({
-                  program_name: programName,
-                  program_description: programDescripton,
-                  program_id: sellerProgram_Id,
-                  seller_pubkey : publicKey,
-                  amount : amountInSol,
-                }),
-              });
-        
-              if (res.ok) {
-                router.push("/");
-              } else {
-                throw new Error("Failed to create a topic");
-              }
-            } catch (error) {
-              console.log(error);
-            }
+      // const txn = await program.methods.initializeSellerProgram(sellerProgramId, amount)
+      // .accounts({
+      //     seller:publicKey,
+      //     sellerProgram:sellerProgram,
+      // })
+      // .rpc();
   
+      // console.log(txn);
+      if(true){
+          try {
+          const res = await fetch("http://localhost:3000/api/seller-program", {
+              method: "POST",
+              headers: {
+              "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+              program_name: programName,
+              program_description: programDescripton,
+              program_id : sellerProgramIdStr,
+              seller_pubkey : "4j3j2j634j62",
+              amountInSol,
+              }),
+          });
+  
+          if (res.ok) {
+              router.push("/");
+          } else {
+              throw new Error("Failed to create a topic");
           }
-    }, [connection, publicKey]);
+          } catch (error) {
+          console.log(error);
+          }
+  
+      }
+  
+  }
 
     return(
             <div>
                 <WalletMultiButton />
                 <WalletDisconnectButton/>
-                <form className="flex flex-col gap-3">
+                <form onSubmit = {(event)=>{
+                  event.preventDefault();
+                  createSellerProgram();
+            }} className="flex flex-col gap-3">
                 <input
-                onChange={(e) => setProgramName(e.target.value)}
+                onChange={(e) => {
+                  setProgramName(e.target.value);
+                  console.log(programName);
+                }}
                 value={programName}
                 className="border border-slate-500 px-8 py-2"
                 type="text"
@@ -114,8 +111,8 @@ export default function FormCreateSellerProgram () {
                 placeholder="Program Description"
                 />
                 <input
-                onChange={(e) => setSellerProgramId(e.target.value)}
-                value={sellerProgramId}
+                onChange={(e) => setSellerProgramIdStr(e.target.value)}
+                value={sellerProgramIdStr}
                 className="border border-slate-500 px-8 py-2"
                 type="text"
                 placeholder="Program Id"
@@ -127,13 +124,16 @@ export default function FormCreateSellerProgram () {
                 type="text"
                 placeholder="Amount"
                 />
-        
+                {/* {displaySellerButton()} */}
+                {/* <CreateSellerProgramButton programName="fkjdsfhakjshf" programDescripton ="fhdsfka fhdf haf " sellerProgramIdStr = "2PdpKUvetUDW7b8UtcvX42RLjm85VvVroXYZW5cU1mCd" amountInSol= {0.002} />  */}
                 <button
-                onClick={onClick} disabled={!publicKey}
-                className="bg-green-600 font-bold text-white py-3 px-6 w-fit"
+                  type="submit"
+                  className="bg-green-600 font-bold text-white py-3 px-6 w-fit"
                 >
-                Create Seller Program
+                  Create seller program
                 </button>
+                       
+                
             </form>
             </div>
             

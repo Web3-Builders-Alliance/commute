@@ -6,7 +6,7 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import {PublicKey} from "@solana/web3.js";
 import { SendSOL } from '@/components/SendSOL';
-import { CreateSellerProgram } from '@/components/CreateSellerProgram';
+import { CreateSellerProgramButton } from '@/components/CreateSellerProgramButton';
 import { CreateAccessPDA } from '@/components/CreateAccessPDA';
 
 // Default styles that can be overridden by your app
@@ -20,7 +20,7 @@ export default function Home() {
       <WalletDisconnectButton/>
       < SendSOL />
       <br></br>
-      < CreateSellerProgram />
+      {/* < CreateSellerProgramButton /> */}
       <br></br>
       < CreateAccessPDA />
       

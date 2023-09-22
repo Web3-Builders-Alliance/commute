@@ -1,11 +1,12 @@
 "use client";
-import {PublicKey} from "@solana/web3.js";
+import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { useConnection, useWallet, useAnchorWallet} from '@solana/wallet-adapter-react';
 import { IDLMarketplaceProgram, IDL } from "@/idl_marketplace/idl_marketplace";
 import React, { FC, useCallback } from 'react';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import { useRouter } from "next/navigation";
+import type { AppProps } from 'next/app'
 
 const { SystemProgram } = anchor.web3;
 const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
@@ -15,8 +16,16 @@ const sellerProgramId = new PublicKey("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui
 const preflightCommitment = "processed";
 const commitment = "processed";
 
+interface ISellerProgramDetails  {
+    programName : String,
+    programDescripton : String,
+    sellerProgramIdStr: String,
+    amountInSol: number
+  }
 
-export const CreateSellerProgram: FC = () => {
+
+
+export const CreateSellerProgramButton: FC<ISellerProgramDetails> = ({programName, programDescripton,sellerProgramIdStr,amountInSol} : ISellerProgramDetails) => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const wallet = useAnchorWallet();
@@ -24,14 +33,17 @@ export const CreateSellerProgram: FC = () => {
   
 
   const onClick = useCallback(async () => {
+      console.log(publicKey);
     
     
       if (!publicKey) throw new WalletNotConnectedError();
+      const sellerProgramId = new PublicKey(sellerProgramIdStr);
       const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),publicKey.toBuffer(), sellerProgramId.toBuffer()],programId)[0];
 
       if (!wallet) {
         return;
       }
+      
       const provider = new anchor.AnchorProvider(connection, wallet, {
         preflightCommitment,
         commitment,
@@ -56,11 +68,11 @@ export const CreateSellerProgram: FC = () => {
                 "Content-type": "application/json",
               },
               body: JSON.stringify({
-                program_name: "counter",
-                program_description: "this is a program about counters and and has functions to increase and decrease count",
-                program_id: "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
-                seller_pubkey : "86nzka9Vi6A989Ej2L4LXf8zdqvVkistHntq28mbv4gF",
-                amount : 10000,
+                program_name: programName,
+                program_description: programDescripton,
+                program_id: sellerProgramId,
+                seller_pubkey : publicKey,
+                amount : new anchor.BN(amountInSol*LAMPORTS_PER_SOL),
               }),
             });
       
