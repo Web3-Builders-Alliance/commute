@@ -7,29 +7,40 @@ import React, { FC, useCallback } from 'react';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import { useRouter } from "next/navigation";
 
-const programId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
-const sellerProgramId = new PublicKey("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9");
-const to = new PublicKey("86nzka9Vi6A989Ej2L4LXf8zdqvVkistHntq28mbv4gF")
-const amount  = 10_000;
+const marketplaceProgramId = new PublicKey("8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr");
+
+
 
 const preflightCommitment = "processed";
 const commitment = "processed";
 
+interface IAccessPDADetails  {
+  programName : String,
+  programDescripton : String,
+  programId :string,
+  sellerProgramIdStr: String,
+  sellerPubkey : String,
+  amountInSol: number
+}
 
-export const CreateAccessPDA: FC = () => {
+
+export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDescripton, programId, sellerProgramIdStr, sellerPubkey, amountInSol}:IAccessPDADetails) => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const wallet = useAnchorWallet();
   const router = useRouter();
+  const sellerProgramId = new PublicKey(programId);
+  const to = new PublicKey(sellerPubkey);
+
   
 
   const onClick = useCallback(async () => {
     
     
       if (!publicKey) throw new WalletNotConnectedError();
-      const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),to.toBuffer(), sellerProgramId.toBuffer()],programId)[0];
+      const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),to.toBuffer(), sellerProgramId.toBuffer()],marketplaceProgramId)[0];
       console.log(`seller program : ${sellerProgram}`);
-      const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access"), publicKey.toBuffer(), sellerProgramId.toBuffer()],programId)[0];
+      const accessPda = PublicKey.findProgramAddressSync([Buffer.from("access"), publicKey.toBuffer(), sellerProgramId.toBuffer()],marketplaceProgramId)[0];
       console.log(`access pda : ${accessPda}`);
 
 
@@ -42,12 +53,12 @@ export const CreateAccessPDA: FC = () => {
         commitment,
       });
 
-      const program = new anchor.Program(IDL , programId, provider);
+      const program = new anchor.Program(IDL , marketplaceProgramId, provider);
 
       const sendSolTxn = SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: to,
-            lamports : amount,
+            lamports : new anchor.BN(amountInSol*LAMPORTS_PER_SOL),
         });
 
         const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, true)
@@ -76,10 +87,10 @@ export const CreateAccessPDA: FC = () => {
                 "Content-type": "application/json",
               },
               body: JSON.stringify({
-                program_name: "counter",
-                amount,
-                program_id : "5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9",
-                buyer_pubkey: "7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX",
+                program_name: programName,
+                amount : amountInSol,
+                program_id : sellerProgramIdStr,
+                buyer_pubkey: publicKey.toBase58(),
                 expires_at:oneWeekFromNow
               }),
             });
