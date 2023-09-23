@@ -1,8 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 interface IAccessPDA {
-    buyer_name : String,
-        seller_name : String,
         program_name : String,
         amount: Number,
         program_id: String,
@@ -11,8 +9,6 @@ interface IAccessPDA {
 }
 
 const AccessPDASchema = new Schema<IAccessPDA>({
-        buyer_name : String,
-        seller_name : String,
         program_name : String,
         amount: Number,
         program_id: String,
@@ -25,6 +21,6 @@ const AccessPDASchema = new Schema<IAccessPDA>({
 );
 
 
-const AccessPDA = model("AccessPDA", AccessPDASchema);
+const AccessPDA = models.AccessPDA || model("AccessPDA", AccessPDASchema);
 
 export default AccessPDA;

@@ -16,13 +16,11 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 export default function Home() {
   return (
     <div >
-      <WalletMultiButton />
-      <WalletDisconnectButton/>
-      < SendSOL />
+      {/* < SendSOL /> */}
       <br></br>
       {/* < CreateSellerProgramButton /> */}
       <br></br>
-      < CreateAccessPDA />
+      {/* < CreateAccessPDA /> */}
       
     </div>
   )

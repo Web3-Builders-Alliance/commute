@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(request:any) {
     const {
-        buyer_name,
-        seller_name,
         program_name,
         amount,
         program_id,
@@ -15,8 +13,6 @@ export async function POST(request:any) {
     await connectMongoDB();
 
     await AccessPDA.create({
-        buyer_name,
-        seller_name,
         program_name,
         amount,
         program_id,
