@@ -18,9 +18,13 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 export default function Home() {
   
   return (
-    <div >
+    <div className="m-3">
       <Link href={`/seller-program`}>
           seller program list
+      </Link>
+      <br></br>
+      <Link href={`/form-create-seller-program`}>
+          create seller program
       </Link>
       {/* < SendSOL /> */}
       <br></br>
