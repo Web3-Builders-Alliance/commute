@@ -1,4 +1,6 @@
 'use client';
+import Link from "next/link";
+
 import React, { FC, useMemo } from 'react';
 import {
     WalletDisconnectButton,
@@ -14,8 +16,12 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 
 export default function Home() {
+  
   return (
     <div >
+      <Link href={`/seller-program`}>
+          seller program list
+      </Link>
       {/* < SendSOL /> */}
       <br></br>
       {/* < CreateSellerProgramButton /> */}

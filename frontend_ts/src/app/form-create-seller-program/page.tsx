@@ -87,8 +87,6 @@ export default function FormCreateSellerProgram () {
 
     return(
             <div>
-                <WalletMultiButton />
-                <WalletDisconnectButton/>
                 <form onSubmit = {(event)=>{
                   event.preventDefault();
                   createSellerProgram();
