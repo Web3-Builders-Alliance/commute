@@ -89,7 +89,8 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
               body: JSON.stringify({
                 program_name: programName,
                 amount : amountInSol,
-                program_id : sellerProgramIdStr,
+                program_id : sellerProgramId.toBase58(),
+                accessPDA : accessPda.toBase58(),
                 buyer_pubkey: publicKey.toBase58(),
                 expires_at:oneWeekFromNow
               }),

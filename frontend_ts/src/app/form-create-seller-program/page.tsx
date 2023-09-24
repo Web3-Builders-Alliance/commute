@@ -55,7 +55,7 @@ export default function FormCreateSellerProgram () {
       .rpc();
   
       console.log(txn);
-      if(true){
+      if(txn){
           try {
           const res = await fetch("http://localhost:3000/api/seller-program", {
               method: "POST",
@@ -75,7 +75,7 @@ export default function FormCreateSellerProgram () {
           if (res.ok) {
               router.push("/");
           } else {
-              throw new Error("Failed to create a topic");
+              throw new Error("Failed to create a seller program");
           }
           } catch (error) {
           console.log(error);

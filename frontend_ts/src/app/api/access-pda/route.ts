@@ -7,6 +7,7 @@ export async function POST(request:any) {
         program_name,
         amount,
         program_id,
+        accessPDA,
         buyer_pubkey,
         expires_at,
     } = await request.json();
@@ -16,6 +17,7 @@ export async function POST(request:any) {
         program_name,
         amount,
         program_id,
+        accessPDA,
         buyer_pubkey,
         expires_at,
     });
