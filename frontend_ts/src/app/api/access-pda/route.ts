@@ -7,6 +7,7 @@ export async function POST(request:any) {
         program_name,
         amount,
         program_id,
+        accessPDA,
         buyer_pubkey,
         expires_at,
     } = await request.json();
@@ -16,6 +17,7 @@ export async function POST(request:any) {
         program_name,
         amount,
         program_id,
+        accessPDA,
         buyer_pubkey,
         expires_at,
     });
@@ -29,3 +31,10 @@ export async function GET() {
     const accessPDA = await AccessPDA.find();
     return NextResponse.json({accessPDA});
 }
+
+export async function DELETE(request: any) {
+    const id = request.nextUrl.searchParams.get("id");
+    await connectMongoDB();
+    await AccessPDA.findByIdAndDelete(id);
+    return NextResponse.json({ message: "access pda deleted" }, { status: 200 });
+  }

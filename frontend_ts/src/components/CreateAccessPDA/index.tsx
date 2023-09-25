@@ -61,7 +61,7 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
             lamports : new anchor.BN(amountInSol*LAMPORTS_PER_SOL),
         });
 
-        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, true)
+        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, false)
         .accounts({
             buyer:publicKey,
             sellerProgram:sellerProgram,
@@ -89,7 +89,8 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
               body: JSON.stringify({
                 program_name: programName,
                 amount : amountInSol,
-                program_id : sellerProgramIdStr,
+                program_id : sellerProgramId.toBase58(),
+                accessPDA : accessPda.toBase58(),
                 buyer_pubkey: publicKey.toBase58(),
                 expires_at:oneWeekFromNow
               }),
