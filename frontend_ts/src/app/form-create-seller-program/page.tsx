@@ -1,10 +1,6 @@
 "use client";
-import { FormEvent, useState ,useCallback,FC } from "react";
+import {useState} from "react";
 import { useRouter } from "next/navigation";
-import {
-    WalletDisconnectButton,
-    WalletMultiButton
-} from '@solana/wallet-adapter-react-ui';
 import { useConnection, useWallet, useAnchorWallet} from '@solana/wallet-adapter-react';
 import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
