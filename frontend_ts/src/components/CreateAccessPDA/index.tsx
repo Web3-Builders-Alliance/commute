@@ -61,7 +61,7 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
             lamports : new anchor.BN(amountInSol*LAMPORTS_PER_SOL),
         });
 
-        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, true)
+        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, false)
         .accounts({
             buyer:publicKey,
             sellerProgram:sellerProgram,
