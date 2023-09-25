@@ -6,7 +6,7 @@ const getUserDetailsByPubkey = async (id:any) => {
     try {
         const res = await fetch(`http://localhost:3000/api/user-details/${id}`, {cache:"no-store"});
         if (!res.ok) {
-            throw new Error("Failed to fetch seller");
+            throw new Error("Failed to fetch user details");
         }
         return res.json(); 
 
@@ -15,11 +15,11 @@ const getUserDetailsByPubkey = async (id:any) => {
     }
 }
 
-export default async function BuySellerProgram({params}:any) {
+export default async function UserDetails({params}:any) {
     const {id} = params;
     console.log(id);
-    const {userDetails} = await getUserDetailsByPubkey(id);
-    const {sellerProgram, accessPDA} = userDetails;
+    const {sellerProgram, accessPDA} = await getUserDetailsByPubkey(id);
+
 
     return (
         <div>
@@ -70,7 +70,7 @@ export default async function BuySellerProgram({params}:any) {
                         </div>
             
                         <div className="flex gap-2">
-                            <CloseAcsessPDA programId={eachAccessPDA.program_id}/>
+                            <CloseAcsessPDA programId={eachAccessPDA.program_id} id={eachAccessPDA._id}/>
                         </div>
                     </div>
                         )                
