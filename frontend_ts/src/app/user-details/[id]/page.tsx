@@ -99,6 +99,29 @@ export default async function UserDetails({ params }: any) {
       <div>
         {accessPDA?.map((eachAccessPDA: any, index: number) => {
           return (
+            // <div
+            //   key={eachAccessPDA._id}
+            //   className="display_program_card flex flex-col gap-5 m-4 justify-between items-start"
+            // >
+            //   <div>
+            //     <div>
+            //       <h2 className="font-bold text-2xl">
+            //         program name : {eachAccessPDA.program_name}
+            //       </h2>
+            //       <h2>amount : {eachAccessPDA.amount}</h2>
+            //     </div>
+            //     <div>seller pubkey : {eachAccessPDA.seller_pubkey}</div>
+            //     <div>program id : {eachAccessPDA.program_id}</div>
+            //     <div>access pda : {eachAccessPDA.accessPDA}</div>
+            //   </div>
+
+              // <div className="flex gap-2">
+              //   <CloseAcsessPDA
+              //     programId={eachAccessPDA.program_id}
+              //     id={eachAccessPDA._id}
+              //   />
+              // </div>
+            // </div>
 
             <div key={eachAccessPDA._id} className="display_program_card flex flex-col gap-5 m-4 justify-between items-start"> 
             <div>
@@ -129,23 +152,23 @@ export default async function UserDetails({ params }: any) {
                 <strong>seller program pda : </strong>
                 <span className="text-l text-gray-700">
                   {` `}
-                  {eachAccessPDA.seller_program_pda}
+                  {eachAccessPDA.accessPDA}
                 </span>
               </p>
               <p className="my-4 font-satoshi">
                 <strong>seller pubkey : </strong>
                 <span className="text-l text-gray-700">
                   {` `}
-                  {eachAccessPDA.seller_pubkey}
+                  {eachAccessPDA.buyer_pubkey}
                 </span>
               </p>
-              <p className="my-4 font-satoshi text-l">
-                <strong>description :</strong>
-                <span className="text-l text-gray-700">
-                  {` `}
-                  {eachAccessPDA.program_description}
-                </span>
-              </p>
+
+              <div className="access_btn blue_gradient">
+                <CloseAcsessPDA
+                  programId={eachAccessPDA.program_id}
+                  id={eachAccessPDA._id}
+                />
+              </div>
             </div>
             </div>
           );
