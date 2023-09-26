@@ -33,25 +33,55 @@ export default async function UserDetails({ params }: any) {
       <div>
         {sellerProgram?.map((eachSellerProgram: any, index: number) => {
           return (
-            <div
-              key={eachSellerProgram._id}
-              className="display_program_card flex flex-col gap-5 m-4 justify-between items-start"
-            >
-              <div>
+            <div key={eachSellerProgram._id} className="display_program_card flex flex-col gap-5 m-4 justify-between items-start"> 
                 <div>
-                  <h2 className="font-bold text-xl">
-                    program name : {eachSellerProgram.program_name}
-                  </h2>
-                  <h2>amount : {eachSellerProgram.amount}</h2>
+                  <div className="flex justify-between">
+                    <h2 className="font-satoshi font-semibold">
+                      Program name :
+                      <span className="font-semibold blue_gradient">
+                        {` `}
+                        {eachSellerProgram.program_name}
+                      </span>
+                    </h2>
+                    <p className="font-satoshi font-semibold">
+                      Amount :
+                      <span className="font-semibold blue_gradient">
+                        {` `}
+                        {eachSellerProgram.amount} SOL
+                      </span>
+                    </p>
+                  </div>
+                  <p className="my-4 font-satoshi">
+                    <strong>program id : </strong>
+                    <span className="text-l text-gray-700">
+                      {` `}
+                      {eachSellerProgram.program_id}
+                    </span>
+                  </p>
+                  <p className="my-4 font-satoshi">
+                    <strong>seller program pda : </strong>
+                    <span className="text-l text-gray-700">
+                      {` `}
+                      {eachSellerProgram.seller_program_pda}
+                    </span>
+                  </p>
+                  <p className="my-4 font-satoshi">
+                    <strong>seller pubkey : </strong>
+                    <span className="text-l text-gray-700">
+                      {` `}
+                      {eachSellerProgram.seller_pubkey}
+                    </span>
+                  </p>
+                  <p className="my-4 font-satoshi text-l">
+                    <strong>description :</strong>
+                    <span className="text-l text-gray-700">
+                      {` `}
+                      {eachSellerProgram.program_description}
+                    </span>
+                  </p>
                 </div>
-                <div>seller pubkey : {eachSellerProgram.seller_pubkey}</div>
-                <div>program id : {eachSellerProgram.program_id}</div>
-                <div>
-                  seller program pda : {eachSellerProgram.seller_program_pda}
-                </div>
-                <div>discription : {eachSellerProgram.program_description}</div>
               </div>
-            </div>
+            
           );
         })}
       </div>
@@ -69,28 +99,54 @@ export default async function UserDetails({ params }: any) {
       <div>
         {accessPDA?.map((eachAccessPDA: any, index: number) => {
           return (
-            <div
-              key={eachAccessPDA._id}
-              className="display_program_card flex flex-col gap-5 m-4 justify-between items-start"
-            >
-              <div>
-                <div>
-                  <h2 className="font-bold text-2xl">
-                    program name : {eachAccessPDA.program_name}
-                  </h2>
-                  <h2>amount : {eachAccessPDA.amount}</h2>
-                </div>
-                <div>seller pubkey : {eachAccessPDA.seller_pubkey}</div>
-                <div>program id : {eachAccessPDA.program_id}</div>
-                <div>access pda : {eachAccessPDA.accessPDA}</div>
-              </div>
 
-              <div className="flex gap-2">
-                <CloseAcsessPDA
-                  programId={eachAccessPDA.program_id}
-                  id={eachAccessPDA._id}
-                />
+            <div key={eachAccessPDA._id} className="display_program_card flex flex-col gap-5 m-4 justify-between items-start"> 
+            <div>
+              <div className="flex justify-between">
+                <h2 className="font-satoshi font-semibold">
+                  Program name :
+                  <span className="font-semibold blue_gradient">
+                    {` `}
+                    {eachAccessPDA.program_name}
+                  </span>
+                </h2>
+                <p className="font-satoshi font-semibold">
+                  Amount :
+                  <span className="font-semibold blue_gradient">
+                    {` `}
+                    {eachAccessPDA.amount} SOL
+                  </span>
+                </p>
               </div>
+              <p className="my-4 font-satoshi">
+                <strong>program id : </strong>
+                <span className="text-l text-gray-700">
+                  {` `}
+                  {eachAccessPDA.program_id}
+                </span>
+              </p>
+              <p className="my-4 font-satoshi">
+                <strong>seller program pda : </strong>
+                <span className="text-l text-gray-700">
+                  {` `}
+                  {eachAccessPDA.seller_program_pda}
+                </span>
+              </p>
+              <p className="my-4 font-satoshi">
+                <strong>seller pubkey : </strong>
+                <span className="text-l text-gray-700">
+                  {` `}
+                  {eachAccessPDA.seller_pubkey}
+                </span>
+              </p>
+              <p className="my-4 font-satoshi text-l">
+                <strong>description :</strong>
+                <span className="text-l text-gray-700">
+                  {` `}
+                  {eachAccessPDA.program_description}
+                </span>
+              </p>
+            </div>
             </div>
           );
         })}
