@@ -7,6 +7,7 @@ import {
   WalletDisconnectButton,
   WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,9 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Wallet>
-          <WalletMultiButton />
-          <WalletDisconnectButton/>
-          <h1 className='text-2xl'>market place</h1>
+          <Navbar />
           {children}
         </Wallet>
         </body>

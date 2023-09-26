@@ -66,7 +66,7 @@ export const CloseAcsessPDA: FC<ICloseAccessPDADetails> = ({programId, id}:IClos
   
     return (
         <button onClick={onClick} disabled={!publicKey}>
-            close access pda
+            close access
         </button>
     );
   };
