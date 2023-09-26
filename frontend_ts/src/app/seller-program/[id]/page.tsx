@@ -53,6 +53,20 @@ export default async function BuySellerProgram({ params }: any) {
             {program_id}
           </span>
         </p>
+        <p className="my-4 font-satoshi">
+          <strong>seller program pda : </strong>
+          <span className="text-l text-gray-700">
+            {` `}
+            {seller_program_pda}
+          </span>
+        </p>
+        <p className="my-4 font-satoshi">
+          <strong>seller pubkey : </strong>
+          <span className="text-l text-gray-700">
+            {` `}
+            {seller_pubkey}
+          </span>
+        </p>
         <p className="my-4 font-satoshi text-l">
           <strong>description :</strong>
           <span className="text-l text-gray-700">

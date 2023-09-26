@@ -45,7 +45,6 @@ export default async function sellerProgramList() {
                     </h2>
                   </div>
 
-                  <div className="my-4 font-satoshi text-sm text-gray-700">seller pubkey : {sellerProgram.seller_pubkey}</div>
                   <div className="my-4 font-satoshi text-sm text-gray-700">discription : {sellerProgram.program_description}</div>
 
                   <div className="access_btn orange_gradient">
