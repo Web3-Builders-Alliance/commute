@@ -8,6 +8,9 @@ import { SendSOL } from '@/components/SendSOL';
 import { CreateSellerProgramButton } from '@/components/CreateSellerProgramButton';
 import { CreateAccessPDA } from '@/components/CreateAccessPDA';
 
+import Section from "@/components/Section";
+import DisplayList from "@/components/DisplayList"
+
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -16,8 +19,12 @@ export default function Home() {
   const {publicKey} = useWallet();
   
   return (
-    <div className="m-3">
-      <Link href={`/seller-program`}>
+    <div className="m-3 p-4">
+      <Section />
+
+      <DisplayList />
+
+      {/* <Link href={`/seller-program`}>
           seller program list
       </Link>
       <br></br>
@@ -28,11 +35,11 @@ export default function Home() {
       <Link href={`/user-details/${publicKey}`}>
           user details
       </Link>
-      {/* < SendSOL /> */}
+      < SendSOL />
       <br></br>
-      {/* < CreateSellerProgramButton /> */}
+      < CreateSellerProgramButton />
       <br></br>
-      {/* < CreateAccessPDA /> */}
+      < CreateAccessPDA /> */}
       
     </div>
   )

@@ -109,7 +109,11 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
   }, [connection, publicKey]);
 
   return (
-      <button onClick={onClick} disabled={!publicKey}>
+      <button 
+        onClick={onClick} 
+        disabled={!publicKey}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+      >
           create access pda
       </button>
   );
