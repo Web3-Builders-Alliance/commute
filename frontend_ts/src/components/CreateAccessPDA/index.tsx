@@ -3,7 +3,7 @@ import {Transaction, Connection, Keypair, LAMPORTS_PER_SOL, PublicKey,SystemProg
 import * as anchor from "@coral-xyz/anchor";
 import { useConnection, useWallet, useAnchorWallet} from '@solana/wallet-adapter-react';
 import { IDLMarketplaceProgram, IDL } from "@/idl_marketplace/idl_marketplace";
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import { useRouter } from "next/navigation";
 
@@ -31,11 +31,13 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
   const router = useRouter();
   const sellerProgramId = new PublicKey(programId);
   const to = new PublicKey(sellerPubkey);
+  const [trialAccess, setTrialAccess] = useState(false);
+
 
   
 
   const onClick = useCallback(async () => {
-    
+      console.log(trialAccess);
     
       if (!publicKey) throw new WalletNotConnectedError();
       const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),to.toBuffer(), sellerProgramId.toBuffer()],marketplaceProgramId)[0];
@@ -54,14 +56,17 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
       });
 
       const program = new anchor.Program(IDL , marketplaceProgramId, provider);
+      const fullAmount = new anchor.BN(amountInSol*LAMPORTS_PER_SOL);
+      
+      const trialAmount = new anchor.BN(amountInSol*LAMPORTS_PER_SOL*0.05);
 
       const sendSolTxn = SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: to,
-            lamports : new anchor.BN(amountInSol*LAMPORTS_PER_SOL),
+            lamports : trialAccess?trialAmount:fullAmount,
         });
 
-        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, false)
+        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, trialAccess)
         .accounts({
             buyer:publicKey,
             sellerProgram:sellerProgram,
@@ -88,11 +93,11 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
               },
               body: JSON.stringify({
                 program_name: programName,
-                amount : amountInSol,
+                amount : amountInSol*0.05,
                 program_id : sellerProgramId.toBase58(),
                 accessPDA : accessPda.toBase58(),
                 buyer_pubkey: publicKey.toBase58(),
-                expires_at:oneWeekFromNow
+                expires_at: trialAccess?oneWeekFromNow:0
               }),
             });
       
@@ -109,12 +114,26 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
   }, [connection, publicKey]);
 
   return (
-      <button 
+    <div>
+        <label>
+          <span className='font-satoshi font-bold text-base'>
+              Trial Access
+          </span>
+          <input className="mx-4" type="checkbox" checked={trialAccess} onChange={(e)=>{
+            setTrialAccess(!trialAccess);
+            
+          }}/>
+        </label>
+        {trialAccess? <h1>true</h1>:<h1>false</h1>}
+        <br></br>
+        <button 
         onClick={onClick} 
         disabled={!publicKey}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer my-2"
       >
           create access pda
       </button>
+    </div>
+      
   );
 };
