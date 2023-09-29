@@ -122,7 +122,6 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
             
           }}/>
         </label>
-        {trialAccess? <h1>true</h1>:<h1>false</h1>}
         <br></br>
         <button 
         onClick={onClick} 
