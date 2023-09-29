@@ -128,7 +128,7 @@ export default function FormCreateSellerProgram() {
             onChange={(e) => setProgramDescripton(e.target.value)}
             value={programDescripton}
             type="text"
-            placeholder="write your program info"
+            placeholder="write what your program does"
             className="form_input"
           />
         </label>
@@ -158,8 +158,6 @@ export default function FormCreateSellerProgram() {
             placeholder="Amount"
           />
         </label>
-        {/* {displaySellerButton()} */}
-        {/* <CreateSellerProgramButton programName="fkjdsfhakjshf" programDescripton ="fhdsfka fhdf haf " sellerProgramIdStr = "2PdpKUvetUDW7b8UtcvX42RLjm85VvVroXYZW5cU1mCd" amountInSol= {0.002} />  */}
         <button
           type="submit"
           className="font-bold bg-green-500 hover:bg-orange-400 text-white py-3 px-6 w-fit rounded"
