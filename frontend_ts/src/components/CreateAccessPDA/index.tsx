@@ -37,8 +37,6 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
   
 
   const onClick = useCallback(async () => {
-      console.log(trialAccess);
-    
       if (!publicKey) throw new WalletNotConnectedError();
       const sellerProgram = PublicKey.findProgramAddressSync([Buffer.from("seller"),to.toBuffer(), sellerProgramId.toBuffer()],marketplaceProgramId)[0];
       console.log(`seller program : ${sellerProgram}`);
@@ -65,53 +63,53 @@ export const CreateAccessPDA: FC<IAccessPDADetails> = ({programName, programDesc
             toPubkey: to,
             lamports : trialAccess?trialAmount:fullAmount,
         });
+        console.log(trialAccess)
+      const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, trialAccess)
+      .accounts({
+          buyer:publicKey,
+          sellerProgram:sellerProgram,
+          accessPda: accessPda,
+          systemProgram : SystemProgram.programId,
+      })
+      .instruction();
+      console.log(trialAccess);
+      const txn = new Transaction().add(sendSolTxn).add(accessPdaTxn); 
+      const sig = await sendTransaction(txn, connection);
+      await connection.confirmTransaction(sig);
 
-        const accessPdaTxn = await program.methods.initializeAccessPda(sellerProgramId, trialAccess)
-        .accounts({
-            buyer:publicKey,
-            sellerProgram:sellerProgram,
-            accessPda: accessPda,
-            systemProgram : SystemProgram.programId,
-        })
-        .instruction();
-        console.log(accessPda);
-        const txn = new Transaction().add(sendSolTxn).add(accessPdaTxn); 
-        const sig = await sendTransaction(txn, connection);
-        await connection.confirmTransaction(sig);
 
+      if(sig){
+        try {
+          const currentDate = new Date();
 
-        if(sig){
-          try {
-            const currentDate = new Date();
-
-            // Calculate the date and time one week from now
-            const oneWeekFromNow = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
-            const res = await fetch("http://localhost:3000/api/access-pda", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify({
-                program_name: programName,
-                amount : amountInSol*0.05,
-                program_id : sellerProgramId.toBase58(),
-                accessPDA : accessPda.toBase58(),
-                buyer_pubkey: publicKey.toBase58(),
-                expires_at: trialAccess?oneWeekFromNow:0
-              }),
-            });
-      
-            if (res.ok) {
-              router.push("/");
-            } else {
-              throw new Error("Failed to create a topic");
-            }
-          } catch (error) {
-            console.log(error);
+          // Calculate the date and time one week from now
+          const oneWeekFromNow = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+          const res = await fetch("http://localhost:3000/api/access-pda", {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+              program_name: programName,
+              amount : amountInSol*0.05,
+              program_id : sellerProgramId.toBase58(),
+              accessPDA : accessPda.toBase58(),
+              buyer_pubkey: publicKey.toBase58(),
+              expires_at: trialAccess?oneWeekFromNow:0
+            }),
+          });
+    
+          if (res.ok) {
+            router.push("/");
+          } else {
+            throw new Error("Failed to create a topic");
           }
-
+        } catch (error) {
+          console.log(error);
         }
-  }, [connection, publicKey]);
+
+      }
+  }, [connection, publicKey, trialAccess]);
 
   return (
     <div>

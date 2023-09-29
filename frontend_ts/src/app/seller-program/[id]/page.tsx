@@ -16,7 +16,6 @@ const getSellerProgramById = async (id: any) => {
 
 export default async function BuySellerProgram({ params }: any) {
   const { id } = params;
-  console.log(id);
   const { sellerProgram } = await getSellerProgramById(id);
   const {
     program_name,

@@ -6,6 +6,5 @@ export async function GET(request:any, {params}:any) {
     const {id} = params;
     await connectMongoDB();
     const sellerProgram = await SellerProgram.findOne({_id:id});
-    console.log(sellerProgram);
     return NextResponse.json({sellerProgram}, {status: 200});
 }
