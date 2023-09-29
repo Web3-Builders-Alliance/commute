@@ -162,6 +162,13 @@ export default async function UserDetails({ params }: any) {
                   {eachAccessPDA.buyer_pubkey}
                 </span>
               </p>
+              <p className="my-4 font-satoshi">
+                <strong>expires at : </strong>
+                <span className="text-l text-gray-700">
+                  {` `}
+                  {eachAccessPDA.expires_at}
+                </span>
+              </p>
 
               <div className="access_btn blue_gradient">
                 <CloseAcsessPDA
