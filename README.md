@@ -1,40 +1,41 @@
 # commute
-# marketplace for program
+a marketplace or an infrastructure to monetize solana programs. focussing on both buyers and sellers is crucial to create a fair market. so this uses PDA and not spl-token(which is the norm in marketplace). this is intentional. this avoids trading program access which affects the sellers in the market. and buyers are protected by provided a trial period with a minimal cost when they can test the functionality and usefullness for thier application. 
 
-## description
-this marketplace makes use of solana blockchain and lets users buy and sell program rights
-to put it simply ONDC for solana programs
+## create seller program
+-  open a pda account with program id, seller pubkey as seeds with before mentioned details with amount stored in the struct. 
 
-## basic user jouney
-### seller:
-go to marketplace 
-1. connect your wallet
-2. upload your program on the platform by adding a new project in your account
-3. now fill the required details like programID, IDL of your code, github link, amount, and a short description so we can list it and its features on platform.
-### buyer:
-go to the marketplace 
-1. connect your wallet and find program that you want using our search bar and filter catogories 
-2. once found, click buy to make a transaction to the seller of amount given.
-3. if transaction = sucess
-    1) create a pda owned by our marketplace program which has his pubkey, and his usage limitation
-    2) to use program, we will need the seller to add a access pda has acoounts for intialise fn.
-    3) so the account relevant for the program is only created if buyer calls intialise
-this can also be done by creating a macro for pubkey and signer check
-and adding it in front of each function
+## create access pda
+- since transations are atomic in nature in solana, we can utilise it by including both the instruction in a single transaction
+- and the two instructions are 
+    1. transfer amount which depends on trial or permanent access
+    2. create access pda
+- open a access pda is done by feeding buyer pubkey, program id into the seeds and a acc struct with all the details mentioned before with amount and expiry is created
 
-## Marketplace User Story
+
+## user story
+### seller flow:
+*In IDE*
+ 1. add the macro provided by the commute market place in the acc intialization in your solana program
+ 2. upload ur program to the solana block chain  
+
+ *In Commute*
+
+ 3. login in to commute with your wallet and create a seller program with program name, description, amount and program id
+ 4.  and voila seller program is created in commute marketplace ready to be bought.
+
+ ### buyer flow:
+
+ *In Commute*
+ 1. login to commute with ur wallet
+ 2. visit the seller program list and look for the solana program which best suites ur needs
+ 3. click to see the complete info of the seller program, if needed can verify everything in block explorer with the seller program pda
+ 4. once satisfied, choose trial or permanent access.
+ 5. go ahead buy the access pda. which will intiate a sol transfer to the seller pubkey and also create the access pda
+
+*In IDE*
+
+6. to access the methods provided buy the seller program, we need to pass the access pda while invoking the functions.
+7. which does the relavent checks and validates the buyer
+
+## User Story Flow chart 
 ![Program Marketplace](https://i.imgur.com/o9My2el.jpg)
-
-
-## benifits
-1. being able to make money out of your programs
-2. recognition and stage in an on chain by platoform (like app store)
-
-fund flow:              funds released 
-                        periodic
-buyer -----> buffer acc -----------> seller
-                        sits there 
-## tech stack
-- db = sql / mongodb(prefered)
-- frontend = nextjs
-- backend = nodejs & solana
