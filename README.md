@@ -22,8 +22,8 @@ go to the marketplace
 this can also be done by creating a macro for pubkey and signer check
 and adding it in front of each function
 
-## Marketplace Architecture
-![Program Marketplace](https://github.com/ShrinathNR/wba_capstone_notes/assets/116967403/911826ac-d0c5-4438-8d9f-bab5bd16c54b)
+## Marketplace User Story
+![Program Marketplace](https://i.imgur.com/o9My2el.jpg)
 
 
 ## benifits
