@@ -1,4 +1,5 @@
 # commute
+Twitter: https://twitter.com/commute_px  
 a marketplace or an infrastructure to monetize solana programs. focussing on both buyers and sellers is crucial to create a fair market. so this uses PDA and not spl-token(which is the norm in marketplace). this is intentional. this avoids trading program access which affects the sellers in the market. and buyers are protected by provided a trial period with a minimal cost when they can test the functionality and usefullness for thier application. 
 
 ## create seller program
