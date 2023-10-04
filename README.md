@@ -39,4 +39,4 @@ a marketplace or an infrastructure to monetize solana programs. focussing on bot
 7. which does the relavent checks and validates the buyer
 
 ## User Story Flow chart 
-![Program Marketplace](https://i.imgur.com/o9My2el.jpg)
+![Program Marketplace](https://i.imgur.com/B79Ef9U.jpeg)
