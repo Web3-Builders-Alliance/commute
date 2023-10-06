@@ -16,7 +16,7 @@ const marketplaceProgramId = new PublicKey(
   "8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr"
 );
 
-const connection_sdk = new Connection(clusterApiUrl('devnet'));
+const connection_sdk = new Connection(clusterApiUrl("devnet"));
 
 const preflightCommitment = "processed";
 const commitment = "processed";
@@ -35,14 +35,16 @@ export default function FormCreateSellerProgram() {
   const createSellerProgram = async () => {
     if (!publicKey) throw new WalletNotConnectedError();
     const sellerProgramId = new PublicKey(sellerProgramIdStr);
-    const programDetails = await connection.getParsedAccountInfo(new PublicKey(sellerProgramId)) as any;
-            
-    const programData = await connection.getParsedAccountInfo(
-            new PublicKey(programDetails.value.data.parsed.info.programData)
-        ) as any;
-    if(programData.value.data.parsed.info.authority == publicKey.toBase58()){
+    const programDetails = (await connection.getParsedAccountInfo(
+      new PublicKey(sellerProgramId)
+    )) as any;
+
+    const programData = (await connection.getParsedAccountInfo(
+      new PublicKey(programDetails.value.data.parsed.info.programData)
+    )) as any;
+    if (programData.value.data.parsed.info.authority == publicKey.toBase58()) {
       alert("invalid authority, create seller program from authority acc");
-      return
+      return;
     }
 
     const sellerProgram = PublicKey.findProgramAddressSync(
@@ -101,14 +103,14 @@ export default function FormCreateSellerProgram() {
   };
 
   return (
-    <section className='w-full max-w-full flex-start flex-col ml-32 mb-10'>
-      <h1 className='head_text text-left'>
-        <span className='blue_gradient'>Program Application Form</span>
+    <section className="w-full max-w-full flex-start flex-col ml-32 mb-10">
+      <h1 className="head_text text-left">
+        <span className="blue_gradient">Program Application Form</span>
       </h1>
-      <p className='desc text-left max-w-md'>
-        Complete the program application form, after user makes payment, user will gain access to your program, allowing them to interact with it.
+      <p className="desc text-left max-w-md">
+        Complete the program application form, after user makes payment, user
+        will gain access to your program, allowing them to interact with it.
       </p>
-
 
       <form
         onSubmit={(event) => {
@@ -118,7 +120,7 @@ export default function FormCreateSellerProgram() {
         className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
       >
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
+          <span className="font-satoshi font-semibold text-base text-gray-700">
             Program Name
           </span>
           <input
@@ -134,20 +136,19 @@ export default function FormCreateSellerProgram() {
         </label>
 
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
+          <span className="font-satoshi font-semibold text-base text-gray-700">
             Program Description
           </span>
-          <input
+          <textarea
             onChange={(e) => setProgramDescripton(e.target.value)}
             value={programDescripton}
-            type="text"
             placeholder="write what your program does"
-            className="form_input"
+            className="form_textarea"
           />
         </label>
 
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
+          <span className="font-satoshi font-semibold text-base text-gray-700">
             Program Id
           </span>
           <input
@@ -158,9 +159,9 @@ export default function FormCreateSellerProgram() {
             placeholder="EtGf3KRU...sHtCeBXP17"
           />
         </label>
-        
+
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
+          <span className="font-satoshi font-semibold text-base text-gray-700">
             Amount
           </span>
           <input

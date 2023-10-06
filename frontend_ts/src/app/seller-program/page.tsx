@@ -19,24 +19,22 @@ export default async function sellerProgramList() {
   // console.log(sellerPrograms);
   return (
     <>
-    <section className='w-full max-w-full flex-start flex-col ml-32 mr-32 mb-10'>
-      <h1 className='head_text text-left'>
-        <span className='blue_gradient'>Program Marketplace</span>
-      </h1>
-      <p className='desc text-left max-w-md'>
-        Purchase the program you want, then get access to the program and start interacting with program.
-      </p>
-    </section>
-    <section className='w-full max-w-full flex-start flex-col ml-32 mr-32 mb-10'>
-        <div className="gap-4 overflow-scroll mt-10">
+      <section className="w-full max-w-full flex-start flex-col ml-32 mr-32 mb-10">
+        <h1 className="head_text text-left">
+          <span className="blue_gradient">Program Marketplace</span>
+        </h1>
+        <p className="desc text-left max-w-md">
+          Purchase the program you want, then get access to the program and
+          start interacting with program.
+        </p>
+      </section>
+      <section className="ml-32 mr-32 mb-10">
+        <div className="gap-4 overflow-scroll mt-16 program_layout">
           {sellerPrograms?.map((sellerProgram: any) => {
             return (
-              <div
-                key={sellerProgram._id}
-                className="program_card flex flex-col gap-5 mt-4 mb-4"
-              >
+              <div key={sellerProgram._id} className="program_card">
                 <div className="">
-                  <div className="flex flex-col">
+                  <div>
                     <h2 className="font-satoshi font-bold blue_gradient">
                       program name : {sellerProgram.program_name}
                     </h2>
@@ -45,7 +43,9 @@ export default async function sellerProgramList() {
                     </h2>
                   </div>
 
-                  <div className="my-4 font-satoshi text-sm text-gray-700">discription : {sellerProgram.program_description}</div>
+                  <div className="my-4 font-satoshi text-sm text-gray-700">
+                    discription : {sellerProgram.program_description}
+                  </div>
 
                   <div className="access_btn orange_gradient">
                     <Link href={`/seller-program/${sellerProgram._id}`}>
@@ -61,6 +61,5 @@ export default async function sellerProgramList() {
     </>
   );
 }
-
 
 // // flex-1 flex justify-start items-center gap-3 cursor-pointer
