@@ -13,3 +13,9 @@ pub mod data_license {
 
 #[derive(Accounts)]
 pub struct Initialize {}
+
+#[account]
+
+pub struct dataset {
+    
+}
