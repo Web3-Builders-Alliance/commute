@@ -12,6 +12,8 @@ a marketplace or an infrastructure to monetize solana programs. focussing on bot
     2. create access pda
 - open a access pda is done by feeding buyer pubkey, program id into the seeds and a acc struct with all the details mentioned before with amount and expiry is created
 
+## protocol architecture
+![Program Marketplace](https://i.imgur.com/i3VvNnf.jpg)
 
 ## user story
 ### seller flow:
@@ -39,4 +41,4 @@ a marketplace or an infrastructure to monetize solana programs. focussing on bot
 7. which does the relavent checks and validates the buyer
 
 ## User Story Flow chart 
-![Program Marketplace](https://i.imgur.com/B79Ef9U.jpeg)
+![Program Marketplace User Story](https://i.imgur.com/B79Ef9U.jpeg)
