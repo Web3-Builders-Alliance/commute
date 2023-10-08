@@ -7,8 +7,13 @@ import {
   WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 
+
 const Navbar = () => {
   const isUserConnected = false;
+
+  const handleSignIn = async () => {
+    const msg = "sign in - commute";
+  }
 
   return (
     <nav className="flex-between w-full mb-16 pt-3 m-2">
