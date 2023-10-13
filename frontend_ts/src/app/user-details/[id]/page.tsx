@@ -149,7 +149,7 @@ export default async function UserDetails({ params }: any) {
                 </span>
               </p>
               <p className="my-4 font-satoshi">
-                <strong>seller program pda : </strong>
+                <strong>Access pda : </strong>
                 <span className="text-l text-gray-700">
                   {` `}
                   {eachAccessPDA.accessPDA}

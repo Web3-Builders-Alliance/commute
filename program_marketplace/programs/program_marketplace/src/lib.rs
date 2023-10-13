@@ -25,7 +25,7 @@ pub mod program_marketplace {
         Ok(())
     }
 
-    pub fn close_expired_access(ctx: Context<CloseExpiredAccess>) -> Result<()> {
+    pub fn close_expired_access(_ctx: Context<CloseExpiredAccess>) -> Result<()> {
         Ok(())
     }
 }

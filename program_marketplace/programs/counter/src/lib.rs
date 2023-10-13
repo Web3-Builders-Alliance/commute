@@ -1,5 +1,12 @@
 use anchor_lang::prelude::*;
-use program_marketplace::AccessPda;
+// use program_marketplace::AccessPda;
+#[account]
+pub struct AccessPda {
+    pub program_id : Pubkey,
+    pub buyer:Pubkey,
+    pub access_pda_bump:u8,
+    pub expires_at : i64,
+}
 
 declare_id!("5ctVKdDrrPhvrpEH2zat86QHeEk2r1ayUJFSu4Gui9k9");
 
