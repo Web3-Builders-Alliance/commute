@@ -6,7 +6,6 @@ import {
   useWallet,
   useAnchorWallet,
 } from "@solana/wallet-adapter-react";
-import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 
@@ -15,8 +14,6 @@ import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 const marketplaceProgramId = new PublicKey(
   "8rNARYhUWKwzRx9QesdMBVeMJCJqqH6eH4sgtHseXpNr"
 );
-
-const connection_sdk = new Connection(clusterApiUrl("devnet"));
 
 const preflightCommitment = "processed";
 const commitment = "processed";
@@ -42,7 +39,7 @@ export default function FormCreateSellerProgram() {
     const programData = (await connection.getParsedAccountInfo(
       new PublicKey(programDetails.value.data.parsed.info.programData)
     )) as any;
-    if (programData.value.data.parsed.info.authority == publicKey.toBase58()) {
+    if (programData.value.data.parsed.info.authority != publicKey.toBase58()) {
       alert("invalid authority, create seller program from authority acc");
       return;
     }
