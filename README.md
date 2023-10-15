@@ -1,24 +1,14 @@
-# commute
+# Commute
 Twitter: https://twitter.com/commute_px  
-a marketplace or an infrastructure to monetize solana programs. focussing on both buyers and sellers is crucial to create a fair market. so this uses PDA - Program Derived Address and not SPL-token (which is the norm in marketplace). this is intentional. this avoids trading program access which affects the sellers in the market. and buyers are protected by provided a trial period with a minimal cost when they can test the functionality and usefullness for thier application. 
+Simple, instant monetization for Solana programs with a Marketplace to attract users and promote community adoption. Focussing on both buyers and sellers is crucial to create a fair market. So this uses PDA - Program Derived Address and not SPL-token. This avoids trading program access which affects the sellers in the market. Buyers are protected by providing them a trial period with a minimal cost when they can test the functionality and usefullness for thier application. 
 
-## create seller program
--  open a pda account with program id, seller pubkey as seeds with before mentioned details with amount stored in the struct. 
-
-## create access pda
-- since transations are atomic in nature in solana, we can utilise it by including both the instruction in a single transaction
-- and the two instructions are 
-    1. transfer amount which depends on trial or permanent access
-    2. create access pda
-- open a access pda is done by feeding buyer pubkey, program id into the seeds and a acc struct with all the details mentioned before with amount and expiry is created
-
-## protocol architecture
+## Protocol architecture
 ![Program Marketplace](https://i.imgur.com/i3VvNnf.jpg)
 
-## user story
+## User story
 ### seller flow:
 *In IDE*
- 1. add the macro provided by the commute market place in the acc intialization in your solana program
+ 1. add the PDA access check provided by the commute market place in the acc intialization in your solana program
  2. upload ur program to the solana block chain  
 
  *In Commute*
